@@ -61,7 +61,9 @@ var Fade = (function (_Component) {
 		}
 	}, {
 		key: 'componentDidLeave',
-		value: function componentDidLeave() {}
+		value: function componentDidLeave() {
+			// empty
+		}
 	}, {
 		key: '_showElement',
 		value: function _showElement() {
@@ -371,24 +373,38 @@ var Lightbox = (function (_Component) {
 			);
 		}
 	}, {
+		key: 'renderCloseBar',
+		value: function renderCloseBar() {
+			var classes = this.props.sheet.classes;
+
+			return _react2['default'].createElement(
+				'div',
+				{ className: classes.closeBar },
+				this.renderCustomControls(),
+				this.renderCloseButton()
+			);
+		}
+	}, {
 		key: 'renderCloseButton',
 		value: function renderCloseButton() {
 			if (!this.props.showCloseButton) return null;
 			var classes = this.props.sheet.classes;
 
 			return _react2['default'].createElement(
-				'div',
-				{ className: classes.closeBar },
-				_react2['default'].createElement(
-					'button',
-					{
-						title: 'Close (Esc)',
-						className: classes.closeButton,
-						onClick: this.props.onClose
-					},
-					_react2['default'].createElement(_Icon2['default'], { type: 'close' })
-				)
+				'button',
+				{
+					title: 'Close (Esc)',
+					className: classes.closeButton,
+					onClick: this.props.onClose
+				},
+				_react2['default'].createElement(_Icon2['default'], { type: 'close' })
 			);
+		}
+	}, {
+		key: 'renderCustomControls',
+		value: function renderCustomControls() {
+			if (!this.props.customControls) return null;
+			return this.props.customControls;
 		}
 	}, {
 		key: 'renderDialog',
@@ -409,7 +425,7 @@ var Lightbox = (function (_Component) {
 				_react2['default'].createElement(
 					'div',
 					{ className: classes.content },
-					this.renderCloseButton(),
+					this.renderCloseBar(),
 					this.renderImages()
 				),
 				this.renderArrowPrev(),
@@ -511,6 +527,7 @@ Lightbox.displayName = 'Lightbox';
 Lightbox.propTypes = {
 	backdropClosesModal: _react.PropTypes.bool,
 	currentImage: _react.PropTypes.number,
+	customControls: _react.PropTypes.arrayOf(_react.PropTypes.node),
 	enableKeyboardInput: _react.PropTypes.bool,
 	imageCountSeparator: _react.PropTypes.string,
 	images: _react.PropTypes.arrayOf(_react.PropTypes.shape({
@@ -795,6 +812,7 @@ var styles = {
 		position: 'relative',
 		right: -10,
 		top: 0,
+		verticalAlign: 'bottom',
 		width: CLOSE_SIZE + 20
 	}
 };
